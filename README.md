@@ -1,3 +1,3 @@
-# Event Finder Bot
+# RPA ROBOTSPAREBIN
 
-Estrutura inicial do projeto.
+- Projeto destinado a implementar uma estrutura funcional para RPAs
