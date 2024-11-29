@@ -3,4 +3,9 @@
 /.vscode
 /.venv
 /__pycache__
+__pycache__
 /myvenv
+/output
+/report.html
+/log.html
+/interactive_console_output.xml

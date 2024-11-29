@@ -1,0 +1,18 @@
+version: '3.3'
+
+services:
+  app:
+    build: .
+    container_name: robot-sparebin
+    volumes:
+      - .:/app:cached
+    ports:
+      - "8000:8000" # Caso precise de porta para a aplicação web
+      - "5900:5900" # Porta para VNC, se necessário
+    environment:
+      - DISPLAY=:99
+      - PIPENV_IGNORE_VIRTUALENVS=1
+      - PIPENV_VENV_IN_PROJECT=1
+    working_dir: /app
+    command: bash -c "rm -rf /tmp/.X99-lock && tail -f /dev/null"
+    tty: true
