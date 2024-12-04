@@ -20,7 +20,7 @@ RUN apt-get update && apt-get install -y \
     libxss1 \
     && rm -rf /var/lib/apt/lists/*
 
-# Instalação do Pipenv
+
 RUN pip install pipenv
 
 RUN pip install rpaframework==28.6.2
@@ -32,7 +32,7 @@ RUN wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | apt-key add
     && apt-get install -y google-chrome-stable \
     && rm -rf /var/lib/apt/lists/*
 
-# Baixar e instalar a versão correspondente do ChromeDriver
+
 RUN wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | gpg --dearmour -o /usr/share/keyrings/chrome-keyring.gpg \
     && sh -c 'echo "deb [arch=amd64 signed-by=/usr/share/keyrings/chrome-keyring.gpg] http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google.list' \
     && apt-get update && apt-get install -y google-chrome-stable \
@@ -48,7 +48,7 @@ RUN curl -fsSL https://downloads.robocorp.com/rcc/releases/latest/linux64/rcc -o
     && rcc config diagnostics
 
     
-# Copiar a estrutura do projeto para o container
+
 COPY . /app
 WORKDIR /app
 

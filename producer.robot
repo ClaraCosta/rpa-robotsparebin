@@ -13,3 +13,6 @@ Producer Workflow
     Open Browser    ${URL}
     Login    ${USERNAME}    ${PASSWORD}
     Download Excel File    ${EXCEL_URL}    ${EXCEL_FILE}
+
+#mongodb: collection_robot_sparebin
+#pymongo para trabalhar com mongodb
