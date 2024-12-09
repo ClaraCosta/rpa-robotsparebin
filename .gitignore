@@ -10,3 +10,4 @@ __pycache__
 /log.html
 /interactive_console_output.xml
 /output.xml
+.env

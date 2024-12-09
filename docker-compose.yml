@@ -7,7 +7,7 @@ services:
     volumes:
       - .:/app:cached
     ports:
-      - "8000:8000" # Caso precise de porta para a aplicação web
+      - "8080:8080" # Caso precise de porta para a aplicação web
       - "5900:5900" # Porta para VNC, se necessário
     environment:
       - DISPLAY=:99
@@ -16,3 +16,14 @@ services:
     working_dir: /app
     command: bash -c "rm -rf /tmp/.X99-lock && tail -f /dev/null"
     tty: true
+
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb-container
+    ports:
+      - "27017:27017" # Porta do MongoDB
+    volumes:
+      - mongodb-data:/data/db
+
+volumes:
+  mongodb-data:

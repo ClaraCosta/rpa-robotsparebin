@@ -5,7 +5,7 @@ Library    RPA.HTTP
 Library    RPA.PDF
 
 *** Keywords ***
-Open Browser
+Abrir Navegador Chrome
     [Arguments]    ${url}
     Open Available Browser    ${url}    browser_selection=Chrome
 
