@@ -46,12 +46,13 @@ Process Sales Data
     [Arguments]    ${data}
     FOR    ${row}    IN    @{data}
         Fill Form    ${row}
-        Insert Data in MongoDB    ${row}   success
+        Insert Data in MongoDB    ${row}    pending
     END
+
 
 Insert Data in MongoDB
     [Arguments]    ${row}    ${status}
-    Call Method    mongo_integration.insert_task_status    ${row}    ${status}
+    Run Keyword    utils.insert_task_status    ${row}    ${status}
 
 
 Capture Screenshot

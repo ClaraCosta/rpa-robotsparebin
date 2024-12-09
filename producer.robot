@@ -2,8 +2,6 @@
 Resource   keywords.robot
 Library    utils/utils.py
 
-# Fazer primeiro antes de construir o consumer
-
 *** Variables ***
 ${URL}         https://robotsparebinindustries.com/
 ${USERNAME}    maria
@@ -24,9 +22,6 @@ Producer Workflow
 
 
 
-#mongodb: collection_robot_sparebin
-#pymongo para trabalhar com mongodb
-
-# Downlaod Excel
-# Realizar leitura do excell (Python)
-# Insert no banco - retorno da leitura
+# Quebrar em tasks
+# Trablhar validações de duplicidade de registros (python)
+# Testar

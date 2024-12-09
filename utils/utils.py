@@ -60,10 +60,11 @@ def export_to_pdf(html_content, output_path):
 
 
 def insert_task_status(row, status):
-    """
-    Insere o status de um registro processado no MongoDB.
-    """
     try:
+        client = MongoClient(MONGO_URI)
+        db = client[DB_NAME]
+        collection = db[COLLECTION_NAME]  
+
         document = {
             "first_name": row["First Name"],
             "last_name": row["Last Name"],
@@ -72,7 +73,7 @@ def insert_task_status(row, status):
             "status": status,
             "timestamp": datetime.now()
         }
-        COLLECTION_NAME.insert_one(document)
+        collection.insert_one(document)
         print(f"Registro inserido com sucesso: {document}")
     except Exception as e:
         print(f"Erro ao inserir registro no MongoDB: {str(e)}")
