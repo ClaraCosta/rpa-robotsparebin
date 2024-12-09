@@ -13,11 +13,13 @@ Login
     [Arguments]    ${username}    ${password}
     Input Text    id:username    ${username}
     Input Text    id:password    ${password}
+    Sleep    1
     Click Element    xpath=//button[contains(text(), 'Log in')]
 
 Download Excel File
     [Arguments]    ${url}    ${output_path}
     RPA.HTTP.Download    ${url}    overwrite=True    target_file=${output_path}
+    Sleep    1
 
 Process Excel File
     [Arguments]    ${file_path}
@@ -26,7 +28,6 @@ Process Excel File
     Close Workbook
     [Return]    ${data}
 
-*** Keywords ***
 Fill Form
     [Arguments]    ${row}
     Wait Until Element Is Visible    id:firstname    timeout=5
@@ -39,6 +40,18 @@ Fill Form
     Input Text    id:salesresult    ${row["Sales"]}
     Wait Until Element Is Visible    xpath=//button[text()='Submit']    timeout=5
     Click Button    xpath=//button[text()='Submit']
+
+
+Process Sales Data
+    [Arguments]    ${data}
+    FOR    ${row}    IN    @{data}
+        Fill Form    ${row}
+        Insert Data in MongoDB    ${row}   success
+    END
+
+Insert Data in MongoDB
+    [Arguments]    ${row}    ${status}
+    Call Method    mongo_integration.insert_task_status    ${row}    ${status}
 
 
 Capture Screenshot

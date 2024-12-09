@@ -23,7 +23,7 @@ RUN apt-get update && apt-get install -y \
 
 RUN pip install pipenv
 
-RUN pip install rpaframework==28.6.2
+#RUN pip install rpaframework==28.6.2
 
 
 RUN wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | apt-key add - \

@@ -3,6 +3,7 @@ from RPA.PDF import PDF
 from pymongo import MongoClient
 import dotenv, os
 from typing import List, Dict, Tuple
+from datetime import datetime
 dotenv.load_dotenv()
 
 DB_NAME = os.getenv('DB_NAME')
@@ -45,6 +46,7 @@ def save_records(list_extract: List[Dict]) ->Tuple[bool, str]:
     
     return (True, 'Salvo com sucesso')
 
+
 def read_excel_data(filepath):
     excel = Files()
     excel.open_workbook(filepath)
@@ -55,3 +57,22 @@ def read_excel_data(filepath):
 def export_to_pdf(html_content, output_path):
     pdf = PDF()
     pdf.html_to_pdf(html_content, output_path)
+
+
+def insert_task_status(row, status):
+    """
+    Insere o status de um registro processado no MongoDB.
+    """
+    try:
+        document = {
+            "first_name": row["First Name"],
+            "last_name": row["Last Name"],
+            "sales": row["Sales"],
+            "sales_target": row["Sales Target"],
+            "status": status,
+            "timestamp": datetime.now()
+        }
+        COLLECTION_NAME.insert_one(document)
+        print(f"Registro inserido com sucesso: {document}")
+    except Exception as e:
+        print(f"Erro ao inserir registro no MongoDB: {str(e)}")

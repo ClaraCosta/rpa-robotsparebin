@@ -1,7 +1,6 @@
 *** Settings ***
 Resource   keywords.robot
 Resource   resources/main.resource
-Library    RPA.Browser.Selenium
 Library    utils/utils.py
 
 # *** Tasks ***
@@ -11,6 +10,16 @@ Library    utils/utils.py
 # preencher formulario 
 # baixar arquivos (só é executada enquano não existirem registros pendentes)
 # realizar update do banco de dados (python) - Chamar novamente "Obter Registros Pendentes"
+
+*** Variables ***
+${URL}         https://robotsparebinindustries.com/
+${USERNAME}    maria
+${PASSWORD}    thoushallnotpass
+${EXCEL_FILE}  output/SalesData.xlsx
+
+*** Keywords ***
+    [Arguments]    ${task_id}    ${status}
+    Call Method    mongo_integration.insert_task_status    ${task_id}    ${status}
 
 *** Tasks ***
 Obter Registros pendentes
@@ -26,19 +35,6 @@ Preencher Formulario Com Registros Pendentes
     ${status}    utils.recover_pending
     ${has_data}=    Set Variable    ${status}[0]
     ${data}=    Set Variable    ${status}[1]
-    
-
-
-*** Variables ***
-${URL}         https://robotsparebinindustries.com/
-${USERNAME}    maria
-${PASSWORD}    thoushallnotpass
-${EXCEL_FILE}  output/SalesData.xlsx
-
-*** Keywords ***
-    [Arguments]    ${task_id}    ${status}
-    Call Method    mongo_integration.insert_task_status    ${task_id}    ${status}
-
 
 
 

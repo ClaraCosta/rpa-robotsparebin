@@ -11,18 +11,20 @@ Abrir bash do container para poder rodar os comandos .robot
 ### Habilitar interface gráfica linux (Obrigatório)
 Xvfb :99 -screen 0 1280x1024x24 & 
 
+### setar qual display será utilizado
+export DISPLAY=:99
 
 ### Ativar client NVC
 
 x11vnc -display :99 -nopw -forever &
 
+### Rodar RPA
+robot -V core/settings.py --pythonpath ./utils ./ producer.robot
 
-### setar qual display será utilizado
-export DISPLAY=:99
 
 ### Abrir chrome
-
 google-chrome --no-sandbox --disable-gpu --disable-software-rasterizer --disable-dev-shm-usage --window-size=1920,1080G
+
 ---
 
 
