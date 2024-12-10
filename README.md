@@ -19,7 +19,7 @@ export DISPLAY=:99
 x11vnc -display :99 -nopw -forever &
 
 ### Rodar RPA
-robot -V core/settings.py --pythonpath ./utils ./ producer.robot
+robot -V variables/settings.py --pythonpath ./utils producer.robot
 
 
 ### Abrir chrome

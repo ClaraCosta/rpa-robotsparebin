@@ -30,6 +30,62 @@ def recover_pending() ->Tuple[bool, list]:
     return (control_bool, result_filter)
 
 
+def is_duplicate(record: Dict) -> bool:
+    try:
+        client = MongoClient(MONGO_URI)
+        db = client[DB_NAME]
+        collection = db[COLLECTION_NAME]
+
+        # Define os critérios de duplicidade (ajuste os campos conforme necessário)
+        filter_query = {
+            "first_name": record["First Name"],
+            "last_name": record["Last Name"],
+            "sales": record["Sales"],
+            "sales_target": record["Sales Target"]
+        }
+
+        existing_record = collection.find_one(filter_query)
+        return existing_record is not None
+
+    except Exception as e:
+        print(f"Erro ao verificar duplicidade: {e}")
+        return False
+
+def insert_task_status_with_validation(row, status):
+    """
+    Insere o status de um registro no MongoDB, validando duplicidade.
+    """
+    try:
+        client = MongoClient(MONGO_URI)
+        db = client[DB_NAME]
+        collection = db[COLLECTION_NAME]
+
+        # Verifica se o registro já existe no banco de dados
+        existing_record = collection.find_one({
+            "first_name": row["First Name"],
+            "last_name": row["Last Name"],
+            "sales": row["Sales"],
+            "sales_target": row["Sales Target"]
+        })
+
+        if existing_record:
+            return f"Registro duplicado: {row['First Name']} {row['Last Name']} não foi inserido."
+
+        # Insere o registro se não for duplicado
+        document = {
+            "first_name": row["First Name"],
+            "last_name": row["Last Name"],
+            "sales": row["Sales"],
+            "sales_target": row["Sales Target"],
+            "status": status,
+            "timestamp": datetime.now()
+        }
+        collection.insert_one(document)
+        return f"Registro inserido com sucesso: {row['First Name']} {row['Last Name']}."
+    except Exception as e:
+        return f"Erro ao inserir registro: {str(e)}"
+    
+
 def save_records(list_extract: List[Dict]) ->Tuple[bool, str]:
     try:
         client = MongoClient()

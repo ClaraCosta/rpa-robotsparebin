@@ -11,17 +11,34 @@ ${EXCEL_FILE}  output/SalesData.xlsx
 
 
 *** Tasks ***
-Producer Workflow
-    [Documentation]     Workflow do módulo producer.robot
+Abrir Navegador
+    [Documentation]     Abre o navegador e acessa a URL inicial.
     Abrir Navegador Chrome    ${URL}
-    Login    ${USERNAME}    ${PASSWORD} 
+
+Realizar Login
+    [Documentation]     Realiza login no site com as credenciais fornecidas.
+    Login    ${USERNAME}    ${PASSWORD}
+
+Baixar Arquivo Excel
+    [Documentation]     Faz o download do arquivo Excel a partir do site.
     Download Excel File    ${EXCEL_URL}    ${EXCEL_FILE}
+
+Processar Arquivo Excel
+    [Documentation]     Lê e processa os dados do arquivo Excel baixado.
     ${data}=    Process Excel File    ${EXCEL_FILE}
-    Process Sales Data    ${data}
+
+Processar Dados de Vendas
+    [Documentation]     Processa os dados do Excel e realiza as operações necessárias.
+    ${data}=    Process Excel File    ${EXCEL_FILE}
+    FOR    ${row}    IN    @{data}
+        Insert Data with Validation    ${row}    pending
+    END
+
+Fechar Navegador
+    [Documentation]     Fecha o navegador aberto durante o workflow.
     Close Browser
 
 
 
-# Quebrar em tasks
-# Trablhar validações de duplicidade de registros (python)
-# Testar
+# Testar duplicidade - apagar registros do banco
+# Adicioonar set next task

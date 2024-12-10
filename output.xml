@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 6.1.1 (Python 3.10.16 on linux)" generated="20241210 19:11:29.910" rpa="true" schemaversion="4">
+<suite id="s1" name="Consumer" source="/app/consumer.robot">
+<test id="s1-t1" name="Abrir Navegador" line="22">
+<kw name="Abrir Navegador Chrome" library="keywords">
+<arg>${URL}</arg>
+<kw name="Open Available Browser" library="RPA.Browser.Selenium">
+<arg>${url}</arg>
+<arg>browser_selection=Chrome</arg>
+<doc>Attempts to open a browser on the user's device from a set of
+supported browsers. Automatically downloads a corresponding webdriver
+if none is already installed.</doc>
+<msg timestamp="20241210 19:11:30.804" level="INFO">Webdriver version taken into use: ChromeDriver 131.0.6778.108 (3b014839fbc4fb688b2f5af512d6ce312ad208b1-refs/branch-heads/6778@{#2393})
+</msg>
+<msg timestamp="20241210 19:11:30.804" level="INFO">Creating an instance of the Chrome WebDriver.</msg>
+<msg timestamp="20241210 19:11:31.703" level="INFO">Created Chrome browser (version 131.0.6778) with arguments: --disable-dev-shm-usage --disable-web-security --allow-running-insecure-content --no-sandbox</msg>
+<msg timestamp="20241210 19:11:31.703" level="INFO" html="true">&lt;p&gt;Attempted combinations:&lt;/p&gt;&lt;div class="doc"&gt;&lt;table&gt;&lt;tr&gt;&lt;th&gt;Browser&lt;/th&gt;&lt;th&gt;Download&lt;/th&gt;&lt;th&gt;Error&lt;/th&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Chrome&lt;/td&gt;&lt;td&gt;False&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;</msg>
+<msg timestamp="20241210 19:11:31.703" level="INFO">Opening url 'https://robotsparebinindustries.com/'</msg>
+<status status="PASS" starttime="20241210 19:11:30.710" endtime="20241210 19:11:32.540"/>
+</kw>
+<status status="PASS" starttime="20241210 19:11:30.709" endtime="20241210 19:11:32.540"/>
+</kw>
+<doc>Abre o navegador e acessa a URL inicial.</doc>
+<status status="PASS" starttime="20241210 19:11:30.708" endtime="20241210 19:11:32.540"/>
+</test>
+<test id="s1-t2" name="Realizar Login" line="26">
+<kw name="Login" library="keywords">
+<arg>${USERNAME}</arg>
+<arg>${PASSWORD}</arg>
+<kw name="Input Text" library="RPA.Browser.Selenium">
+<arg>id:username</arg>
+<arg>${username}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<msg timestamp="20241210 19:11:32.545" level="INFO">Typing text 'maria' into text field 'id:username'.</msg>
+<status status="PASS" starttime="20241210 19:11:32.544" endtime="20241210 19:11:32.664"/>
+</kw>
+<kw name="Input Text" library="RPA.Browser.Selenium">
+<arg>id:password</arg>
+<arg>${password}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<msg timestamp="20241210 19:11:32.665" level="INFO">Typing text 'thoushallnotpass' into text field 'id:password'.</msg>
+<status status="PASS" starttime="20241210 19:11:32.664" endtime="20241210 19:11:32.751"/>
+</kw>
+<kw name="Sleep" library="BuiltIn">
+<arg>1</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<msg timestamp="20241210 19:11:33.751" level="INFO">Slept 1 second</msg>
+<status status="PASS" starttime="20241210 19:11:32.751" endtime="20241210 19:11:33.752"/>
+</kw>
+<kw name="Click Element" library="RPA.Browser.Selenium">
+<arg>xpath=//button[contains(text(), 'Log in')]</arg>
+<doc>Click the element identified by ``locator``.</doc>
+<msg timestamp="20241210 19:11:33.753" level="INFO">Clicking element 'xpath=//button[contains(text(), 'Log in')]'.</msg>
+<status status="PASS" starttime="20241210 19:11:33.752" endtime="20241210 19:11:33.853"/>
+</kw>
+<status status="PASS" starttime="20241210 19:11:32.544" endtime="20241210 19:11:33.853"/>
+</kw>
+<doc>Realiza login no site com as credenciais fornecidas.</doc>
+<status status="PASS" starttime="20241210 19:11:32.542" endtime="20241210 19:11:33.854"/>
+</test>
+<test id="s1-t3" name="Recuperar Registros Pendentes" line="30">
+<kw name="Recover Pending" library="utils">
+<var>${status}</var>
+<msg timestamp="20241210 19:11:35.577" level="INFO">${status} = (True, {'_id': ObjectId('674dfbe2d1633aca4d300aec'), 'hello': 'world'})</msg>
+<status status="PASS" starttime="20241210 19:11:33.858" endtime="20241210 19:11:35.577"/>
+</kw>
+<kw name="Set Variable" library="BuiltIn">
+<var>${has_data}</var>
+<arg>${status}[0]</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<msg timestamp="20241210 19:11:35.577" level="INFO">${has_data} = True</msg>
+<status status="PASS" starttime="20241210 19:11:35.577" endtime="20241210 19:11:35.578"/>
+</kw>
+<kw name="Set Variable" library="BuiltIn">
+<var>${data}</var>
+<arg>${status}[1]</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<msg timestamp="20241210 19:11:35.578" level="INFO">${data} = {'_id': ObjectId('674dfbe2d1633aca4d300aec'), 'hello': 'world'}</msg>
+<status status="PASS" starttime="20241210 19:11:35.578" endtime="20241210 19:11:35.578"/>
+</kw>
+<kw name="Run Keyword If" library="BuiltIn">
+<arg>not ${has_data}</arg>
+<arg>Fail</arg>
+<arg>"Nenhum registro pendente encontrado!"</arg>
+<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
+<status status="PASS" starttime="20241210 19:11:35.578" endtime="20241210 19:11:35.578"/>
+</kw>
+<kw name="Log" library="BuiltIn">
+<arg>Registros pendentes encontrados: ${data}</arg>
+<doc>Logs the given message with the given level.</doc>
+<msg timestamp="20241210 19:11:35.579" level="INFO">Registros pendentes encontrados: {'_id': ObjectId('674dfbe2d1633aca4d300aec'), 'hello': 'world'}</msg>
+<status status="PASS" starttime="20241210 19:11:35.579" endtime="20241210 19:11:35.579"/>
+</kw>
+<doc>Testa recuperação de registros pendentes do banco de dados.</doc>
+<status status="PASS" starttime="20241210 19:11:33.857" endtime="20241210 19:11:35.579"/>
+</test>
+<test id="s1-t4" name="Preencher Formularios" line="38">
+<for flavor="IN">
+<var>${row}</var>
+<value>@{data}</value>
+<iter>
+<var name="${row}"/>
+<kw name="Run Keyword And Ignore Error" library="BuiltIn">
+<arg>Fill Form</arg>
+<arg>${row}</arg>
+<doc>Runs the given keyword with the given arguments and ignores possible error.</doc>
+<status status="NOT RUN" starttime="20241210 19:11:35.581" endtime="20241210 19:11:35.581"/>
+</kw>
+<kw name="Run Keyword If" library="BuiltIn">
+<var>${status}</var>
+<arg>'${row}' != None</arg>
+<arg>Set Variable</arg>
+<arg>${STATUS_SUCCESS}</arg>
+<arg>ELSE</arg>
+<arg>Set Variable</arg>
+<arg>${STATUS_ERROR}</arg>
+<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
+<status status="NOT RUN" starttime="20241210 19:11:35.581" endtime="20241210 19:11:35.581"/>
+</kw>
+<kw name="Atualizar Status no MongoDB">
+<arg>${row}</arg>
+<arg>${status}</arg>
+<status status="NOT RUN" starttime="20241210 19:11:35.581" endtime="20241210 19:11:35.581"/>
+</kw>
+<status status="NOT RUN" starttime="20241210 19:11:35.581" endtime="20241210 19:11:35.581"/>
+</iter>
+<msg timestamp="20241210 19:11:35.581" level="FAIL">Variable '@{data}' not found.</msg>
+<status status="FAIL" starttime="20241210 19:11:35.580" endtime="20241210 19:11:35.581"/>
+</for>
+<doc>Preenche formulários com os dados recuperados do MongoDB.</doc>
+<status status="FAIL" starttime="20241210 19:11:35.579" endtime="20241210 19:11:35.582">Variable '@{data}' not found.</status>
+</test>
+<test id="s1-t5" name="Fechar Navegador" line="46">
+<kw name="Close Browser" library="RPA.Browser.Selenium">
+<doc>Closes the current browser.</doc>
+<status status="PASS" starttime="20241210 19:11:35.582" endtime="20241210 19:11:35.657"/>
+</kw>
+<doc>Fecha o navegador após o término do workflow.</doc>
+<status status="PASS" starttime="20241210 19:11:35.582" endtime="20241210 19:11:35.657"/>
+</test>
+<status status="FAIL" starttime="20241210 19:11:29.912" endtime="20241210 19:11:35.658"/>
+</suite>
+<statistics>
+<total>
+<stat pass="4" fail="1" skip="0">All Tasks</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat pass="4" fail="1" skip="0" id="s1" name="Consumer">Consumer</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>

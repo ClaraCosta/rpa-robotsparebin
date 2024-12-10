@@ -21,12 +21,14 @@ Download Excel File
     RPA.HTTP.Download    ${url}    overwrite=True    target_file=${output_path}
     Sleep    1
 
+
 Process Excel File
     [Arguments]    ${file_path}
     Open Workbook    ${file_path}
     ${data}=    Read Worksheet As Table    header=True
     Close Workbook
     [Return]    ${data}
+
 
 Fill Form
     [Arguments]    ${row}
@@ -41,18 +43,43 @@ Fill Form
     Wait Until Element Is Visible    xpath=//button[text()='Submit']    timeout=5
     Click Button    xpath=//button[text()='Submit']
 
+Recuperar Registros Pendentes
+    [Documentation]     Consulta o MongoDB para obter os registros pendentes.
+    ${status}=    utils.recover_pending
+    ${has_data}=    Set Variable    ${status}[0]
+    ${data}=       Set Variable    ${status}[1]
+    Run Keyword If    not ${has_data}    Fail    "Nenhum registro pendente encontrado!"
+    Log    Registros pendentes encontrados: ${data}
 
-Process Sales Data
-    [Arguments]    ${data}
+
+Preencher Formularios
+    [Documentation]     Preenche formulários com os dados recuperados do MongoDB.
     FOR    ${row}    IN    @{data}
-        Fill Form    ${row}
-        Insert Data in MongoDB    ${row}    pending
+        Try
+            Fill Form    ${row}
+            Atualizar Status no MongoDB    ${row}    ${STATUS_SUCCESS}
+        Except Exception as ${err}
+            Log    Falha ao processar ${row}: ${err}
+            Atualizar Status no MongoDB    ${row}    ${STATUS_ERROR}
     END
+
+
+Atualizar Status no MongoDB
+    [Arguments]    ${row}    ${status}
+    Run Keyword    utils.insert_task_status    ${row}    ${status}
+
+
+Insert Data with Validation
+    [Arguments]    ${row}    ${status}
+    ${message}=    Evaluate    utils.insert_task_status_with_validation(${row}, "${status}")
+    Log    ${message}
+
 
 
 Insert Data in MongoDB
     [Arguments]    ${row}    ${status}
     Run Keyword    utils.insert_task_status    ${row}    ${status}
+
 
 
 Capture Screenshot
@@ -64,5 +91,6 @@ Generate PDF Report
     ${html}=    Get Element Attribute    css:#sales-results    outerHTML
     HTML To PDF    ${html}    ${file_path}
 
-Close Browser
-    Close All Browsers
+Fechar Navegador
+    [Documentation]     Fecha o navegador após o término do workflow.
+    Close Browser
